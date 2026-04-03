@@ -1,6 +1,7 @@
 import cv2
 import tkinter as tk
 from tkinter.filedialog import *
+import sys
 
 window = tk.Tk()
 window.title("Video reversing")
@@ -14,7 +15,10 @@ label = tk.Label(window, text="Close this dialog box to proceed").grid(
 window.mainloop()
 
 
-cap = cv2.VideoCapture('sampleVideo.mp4')
+try: 
+    cap = cv2.VideoCapture(sys.argv[1])
+except:
+    cap = cv2.VideoCapture('sampleVideo.mp4')
 
 frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
 fps = cap.get(cv2.CAP_PROP_FPS)
@@ -25,7 +29,10 @@ size = (int(width*0.5), int(height*0.5))
 
 # defining/writing the output video and its format
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-out = cv2.VideoWriter('sampleOutput.mp4', fourcc, fps, size)
+try:
+    out = cv2.VideoWriter(sys.argv[2], fourcc, fps, size)
+except:
+    out = cv2.VideoWriter('sampleOutput.mp4', fourcc, fps, size)
 
 print("No. of frames: ", frames)
 print("FPS: ", fps)

@@ -29,7 +29,7 @@ def purchase_item():
 
 
 chrome_driver_path = "C:/Development/chromedriver.exe"
-driver = webdriver.Chrome(executable_path=chrome_driver_path)
+driver = webdriver.Chrome()
 
 driver.get("https://orteil.dashnet.org/cookieclicker/")
 
