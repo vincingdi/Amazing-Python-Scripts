@@ -44,7 +44,14 @@ if (cap.isOpened()):
     while (frameIdx != 0):  # iterating from last frame to first
         cap.set(cv2.CAP_PROP_POS_FRAMES, frameIdx)  # pointing to last frame
         ret, frame = cap.read()
-        frame = cv2.resize(frame, size)
+        
+        frame_original = frame = cv2.resize(frame, size)
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        frame = cv2.medianBlur(frame, 5)
+        edges = cv2.adaptiveThreshold(frame, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 9, 9)
+
+        color = cv2.bilateralFilter(frame_original, 9, 250, 250)
+        frame = cv2.bitwise_and(color, color, mask=edges)
         frameIdx = frameIdx - 1
         if (frameIdx % 100 == 0):  # progress updated every 100 frames
             print(frameIdx)
